@@ -1,70 +1,210 @@
 <script>
-  import Logo from '../assets/logo.svg'
+  import { router } from '../stores/router.js'
+  import { APP_CONFIG, ROUTES } from '../config/constants.js'
+  import ThemeSwitcher from './ThemeSwitcher.svelte'
+  
   let open = false
-  function navTo(hash){
-    window.location.hash = hash
+  
+  /**
+   * Navigate to a route and close mobile menu
+   * @param {string} hash - Route hash
+   */
+  function navTo(hash) {
+    router.navigate(hash)
     open = false
   }
 </script>
 
 <nav class="nav">
   <div class="nav-inner">
-    <button class="brand" on:click={() => navTo('#home')}>
-      <img src="/src/assets/logo.svg" alt="Mines AI Club logo" class="logo" />
+    <button class="brand" on:click={() => navTo(ROUTES.HOME)}>
+      <img src={APP_CONFIG.logo} alt="{APP_CONFIG.clubName} logo" class="logo" />
       <div class="brand-text">
-        <div class="title">Mines AI & ML Club</div>
-        <div class="subtitle">Colorado School of Mines</div>
+        <div class="title">{APP_CONFIG.clubName}</div>
+        <div class="subtitle">{APP_CONFIG.schoolName}</div>
       </div>
     </button>
 
-    <button class="burger" on:click={() => open = !open} aria-label="Toggle menu">☰</button>
+    <div class="nav-right">
+      <ThemeSwitcher />
+      <button class="burger" on:click={() => open = !open} aria-label="Toggle menu">☰</button>
+    </div>
 
     <ul class:open={open} class="links">
-      <li><a href="#home" on:click|preventDefault={() => navTo('#home')}>Home</a></li>
-      <li><a href="#events" on:click|preventDefault={() => navTo('#events')}>Events</a></li>
-      <li><a href="#contact" on:click|preventDefault={() => navTo('#contact')}>Contact</a></li>
+      <li><a href={ROUTES.HOME} on:click|preventDefault={() => navTo(ROUTES.HOME)}>Home</a></li>
+      <li><a href={ROUTES.EVENTS} on:click|preventDefault={() => navTo(ROUTES.EVENTS)}>Events</a></li>
+      <li><a href={ROUTES.PROJECTS} on:click|preventDefault={() => navTo(ROUTES.PROJECTS)}>Projects</a></li>
+      <li><a href={ROUTES.CONTACT} on:click|preventDefault={() => navTo(ROUTES.CONTACT)}>Contact</a></li>
+      <li>
+        <a
+          href="https://oreconnect.mines.edu/feeds?type=club&type_id=67510&tab=about"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          OreConnect
+        </a>
+      </li>
     </ul>
   </div>
 </nav>
 
 <style>
-  :global(:root){
-    --accent:#ffb703;
-    --muted:#94a3b8;
-    --bg:#071024;
-    --card:#0b1220;
-    --text:#e6eef8;
+  .nav {
+    background: var(--card);
+    padding: 0.75rem 1.5rem;
+    border-bottom: 2px solid var(--border-accent);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
-  .nav{
-    background: #071024;
-    padding:0.6rem 1rem;
-    border-bottom:1px solid rgba(255,255,255,0.08);
-    position:sticky;
-    top:0;
-    z-index:50;
-    backdrop-filter: blur(10px);
+  
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
-  .nav-inner{
-    max-width:1100px;
-    margin:0 auto;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
+  
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    color: inherit;
+    font: inherit;
+    transition: transform 0.2s ease;
   }
-  .brand{display:flex;align-items:center;gap:0.8rem;cursor:pointer;background:transparent;border:0;padding:0;color:inherit;font:inherit}
-  .logo{height:48px;width:48px}
-  .title{font-weight:700}
-  .subtitle{font-size:0.75rem;color:var(--muted)}
 
-  .links{display:flex;gap:1rem;list-style:none;margin:0;padding:0}
-  .links a{color:var(--text);text-decoration:none;padding:0.4rem 0.6rem;border-radius:6px}
-  .links a:hover{background:rgba(255,255,255,0.02)}
+  .brand:hover {
+    transform: translateY(-2px);
+  }
 
-  .burger{display:none;background:transparent;border:0;color:var(--text);font-size:1.5rem}
+  .brand:hover .logo {
+    box-shadow: 0 0 20px var(--accent-subtle);
+  }
+  
+  .logo {
+    height: 52px;
+    width: 52px;
+    border-radius: 8px;
+    border: 2px solid var(--border-accent);
+    box-shadow: 0 2px 4px var(--accent-subtle);
+    transition: all 0.3s ease;
+  }
+  
+  .title {
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--text-bright);
+  }
+  
+  .subtitle {
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
 
-  @media(max-width:700px){
-    .links{position:absolute;right:1rem;top:64px;flex-direction:column;background:var(--card);padding:1rem;border-radius:8px;display:none}
-    .links.open{display:flex}
-    .burger{display:block}
+  .links {
+    display: flex;
+    gap: 0.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .links a {
+    color: var(--text);
+    text-decoration: none;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    position: relative;
+  }
+
+  .links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: 80%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--cyan));
+    transition: transform 0.3s ease;
+  }
+
+  .links a:hover::after {
+    transform: translateX(-50%) scaleX(1);
+  }
+  
+  .links a:hover {
+    background: var(--bg-hover);
+    color: var(--accent);
+  }
+
+  .burger {
+    display: none;
+    background: transparent;
+    border: 2px solid var(--border-accent);
+    color: var(--accent);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+
+  .burger:hover {
+    background: var(--bg-hover);
+    box-shadow: 0 0 15px var(--accent-subtle);
+  }
+
+  @media (max-width: 700px) {
+    .nav {
+      padding: 0.6rem 1rem;
+    }
+
+    .nav-right {
+      gap: 0.75rem;
+    }
+
+    .logo {
+      height: 45px;
+      width: 45px;
+    }
+    
+    .links {
+      position: absolute;
+      right: 1rem;
+      top: 72px;
+      flex-direction: column;
+      background: var(--card);
+      padding: 1rem;
+      border-radius: 12px;
+      display: none;
+      box-shadow: 0 8px 24px var(--accent-subtle);
+      border: 1px solid var(--border-accent);
+    }
+    
+    .links.open {
+      display: flex;
+    }
+    
+    .burger {
+      display: block;
+    }
   }
 </style>
