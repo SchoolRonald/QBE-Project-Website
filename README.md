@@ -1,6 +1,6 @@
 # Mines AI & Machine Learning Club — Site (Svelte)
 
-This is a small Svelte + Vite scaffold for the Colorado School of Mines AI & ML Club. It contains three pages: Home, Upcoming Events, and Contact.
+Modern single-page site for the Colorado School of Mines AI & ML Club, built with Svelte. This project was built mostly using LLM's. 
 
 ## Quick start
 
@@ -11,6 +11,13 @@ npm run dev
 ```
 
 Open http://localhost:5173
+
+### Additional scripts
+
+```bash
+npm run build   # production bundle
+npm run preview # serve dist locally after build
+```
 
 ## Updating Content
 
@@ -30,9 +37,28 @@ To add, edit, or remove events, update `src/data/events.json`:
 }
 ```
 
-- For TBD events, use `"date": "TBD"` and `"location": "TBD"`
+- Place `"TBD"` fir `"date"` and `"location:` when applicable, they can also be excluded.
 - Times use 24-hour format (e.g., "16:00" for 4pm)
 - Events automatically sort by date on the Events page
+- Optional `oreconnect_url` adds a button to link the orceconnet page for that event
+
+### Projects showcase
+
+Edit `src/data/projects.json` to update the Projects page. Example entry:
+
+```json
+[
+  {
+    "title": "Neural Network from Scratch",
+    "description": "What the team built...",
+    "members": ["Name One", "Name Two"],
+    "technologies": ["Python", "NumPy"],
+    "github_url": "https://github.com/example/repo"
+  }
+]
+```
+
+- `members`, `technologies`, and `github_url` are optional; cards fall back to placeholders when omitted
 
 ### Contact/Team Members
 
@@ -74,8 +100,15 @@ To update team members, edit `src/data/people.json`:
 - `url`: Optional external profile link
 - `image`: Optional profile photo that shold be placed in `src/assets` (if omitted, initials will be shown)
 
-## Notes
+## Theming
 
-- This is a simple single-page Svelte app using hash-based routing for ease of demo.
-- The contact form is a demo (no backend). I can add a real backend (Netlify functions, Formspree, or your preferred endpoint) if you want.
-- Logo and illustration are simple SVGs included in `src/assets`. We can replace them with specific images/logos you prefer.
+- Theme definitions live in `src/config/themes.js`
+- Each theme maps to CSS custom properties; use the `ThemeSwitcher` component (top-right of nav) to preview
+- Default theme is `auricCore`, inspired by the club gold + cyan palette
+
+## Technical Notes
+
+- Single-page Svelte app using hash-based routing (`src/stores/router.js`), so it can host on any static server without custom rewrites
+- Contact form is a placeholder—connect it to Netlify Functions, Formspree, etc., if needed
+- Assets (images) live in `src/assets`;
+
