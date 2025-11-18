@@ -65,30 +65,18 @@
   },
   "Mentorship Program Launch": {
     "date": "TBD",
-    "start_time": "17:00",
-    "end_time": "18:00",
-    "location": "TBD",
     "description": "Connect with industry professionals for mentorship opportunities in AI and machine learning. Details coming soon!"
   },
   "Kaggle Competition": {
     "date": "TBD",
-    "start_time": "17:00",
-    "end_time": "18:00",
-    "location": "TBD",
     "description": "Stay tuned for competition details!"
   },
   "Hackathon": {
     "date": "TBD",
-    "start_time": "17:00",
-    "end_time": "18:00",
-    "location": "TBD",
     "description": "Build innovative projects!"
   },
   "CU Denver Data Science Symposium": {
     "date": "TBD",
-    "start_time": "17:00",
-    "end_time": "18:00",
-    "location": "TBD",
     "description": "Collaborative data science symposium with CU Denver. Details to be announced."
   }
 }

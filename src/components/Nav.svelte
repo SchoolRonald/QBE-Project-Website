@@ -20,7 +20,7 @@
 </script>
 
 <nav class="nav">
-  <div class="nav-inner">
+  <div class="nav-inner page-shell">
     <button class="brand" on:click={() => navTo(ROUTES.HOME)}>
       <img src={APP_CONFIG.logo} alt="{APP_CONFIG.clubName} logo" class="logo" />
       <div class="brand-text">
@@ -47,7 +47,13 @@
               {link.label}
             </a>
           {:else}
-            <a href={link.href} on:click|preventDefault={() => navTo(link.href)}>{link.label}</a>
+            <a
+              href={link.href}
+              class:active={$router === link.href}
+              on:click|preventDefault={() => navTo(link.href)}
+            >
+              {link.label}
+            </a>
           {/if}
         </li>
       {/each}
@@ -57,19 +63,26 @@
 
 <style>
   .nav {
-    background: var(--card);
-    padding: 0.75rem 1.5rem;
-    border-bottom: 2px solid var(--border-accent);
+    background: var(--nav-bg, rgba(10, 18, 34, 0.9));
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--nav-border, rgba(255, 255, 255, 0.06));
     position: sticky;
     top: 0;
     z-index: 50;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 12px 35px rgba(3, 6, 12, 0.45);
+  }
+  
+  .nav::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(212, 175, 55, 0.12), transparent, rgba(0, 206, 209, 0.12));
+    pointer-events: none;
+    opacity: 0.6;
   }
   
   .nav-inner {
-    max-width: 1200px;
-    margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -108,7 +121,7 @@
   .title {
     font-weight: 700;
     font-size: 1.05rem;
-    color: var(--text-bright);
+    color: var(--nav-text, var(--text-bright));
   }
   
   .subtitle {
@@ -125,48 +138,53 @@
 
   .links {
     display: flex;
-    gap: 0.5rem;
+    gap: 0.35rem;
     list-style: none;
     margin: 0;
     padding: 0;
   }
   
   .links a {
-    color: var(--text);
+    color: var(--nav-text, var(--text));
     text-decoration: none;
-    padding: 0.6rem 1rem;
-    border-radius: 8px;
+    padding: 0.55rem 1rem;
+    border-radius: 999px;
     font-weight: 500;
-    transition: all 0.2s ease;
+    transition: all 0.25s ease;
     position: relative;
+    border: 1px solid transparent;
   }
 
   .links a::after {
     content: '';
     position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%) scaleX(0);
-    width: 80%;
-    height: 2px;
-    background: linear-gradient(90deg, var(--accent), var(--cyan));
-    transition: transform 0.3s ease;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(120deg, rgba(212, 175, 55, 0.5), rgba(0, 206, 209, 0.4));
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
 
-  .links a:hover::after {
-    transform: translateX(-50%) scaleX(1);
+  .links a:hover::after,
+  .links a.active::after {
+    opacity: 1;
   }
   
-  .links a:hover {
+  .links a:hover,
+  .links a.active {
     background: var(--bg-hover);
-    color: var(--accent);
+    border-color: var(--border-medium);
+    color: var(--accent-bright);
   }
 
   .burger {
     display: none;
     background: transparent;
     border: 2px solid var(--border-accent);
-    color: var(--accent);
+    color: var(--nav-text, var(--accent));
     font-size: 1.5rem;
     cursor: pointer;
     padding: 0.3rem 0.6rem;
@@ -180,10 +198,6 @@
   }
 
   @media (max-width: 700px) {
-    .nav {
-      padding: 0.6rem 1rem;
-    }
-
     .nav-right {
       gap: 0.75rem;
     }
@@ -198,14 +212,15 @@
       right: 1rem;
       top: 72px;
       flex-direction: column;
-      background: var(--card);
+      background: var(--nav-bg, rgba(10, 18, 34, 0.95));
       padding: 1rem;
-      border-radius: 12px;
+      border-radius: 18px;
       display: none;
-      box-shadow: 0 8px 24px var(--accent-subtle);
-      border: 1px solid var(--border-accent);
+      box-shadow: 0 25px 60px rgba(3, 5, 12, 0.7);
+      border: 1px solid var(--nav-border, rgba(255, 255, 255, 0.08));
+      backdrop-filter: blur(18px);
     }
-    
+
     .links.open {
       display: flex;
     }

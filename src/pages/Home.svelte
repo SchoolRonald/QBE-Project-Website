@@ -1,24 +1,11 @@
 <script>
-  import { APP_CONFIG, ROUTES } from '../config/constants.js'
+  import { APP_CONFIG, ROUTES, EXTERNAL_LINKS } from '../config/constants.js'
 </script>
 
-<section class="hero">
-  <div class="hero-content">
-    <!-- Centered Logo Design -->
-    <div class="logo-showcase">
-      <div class="circuit-lines">
-        <div class="circuit-line line-1"></div>
-        <div class="circuit-line line-2"></div>
-        <div class="circuit-line line-3"></div>
-        <div class="circuit-line line-4"></div>
-      </div>
-      <div class="logo-container">
-        <div class="logo-glow"></div>
-        <img src="/src/assets/club-logo.jpg" alt="Colorado School of Mines AI/ML Club Logo" class="hero-logo" />
-      </div>
-    </div>
-
+<section class="hero page-shell">
+  <div class="hero-grid surface-card">
     <div class="hero-text">
+      <span class="badge hero-badge">Colorado School of Mines</span>
       <h1>{APP_CONFIG.clubName}</h1>
       <p class="lead">Empowering students to explore artificial intelligence and machine learning through hands-on workshops, collaborative projects, and industry connections.</p>
 
@@ -28,40 +15,76 @@
           <span class="arrow">→</span>
         </a>
         <a class="btn secondary" href={ROUTES.CONTACT}>Contact Us</a>
+        <a
+          class="btn tertiary"
+          href={EXTERNAL_LINKS.ORECONNECT}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          OreConnect Portal ↗
+        </a>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="value">130+</div>
+          <div class="label">Active Members</div>
+        </div>
+        <div class="stat-card">
+          <div class="value">18</div>
+          <div class="label">Workshops / yr</div>
+        </div>
+        <div class="stat-card">
+          <div class="value">12</div>
+          <div class="label">Projects Shipped</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Centered Logo Design -->
+    <div class="logo-column">
+      <div class="logo-showcase">
+        <div class="circuit-lines">
+          <div class="circuit-line line-1"></div>
+          <div class="circuit-line line-2"></div>
+          <div class="circuit-line line-3"></div>
+          <div class="circuit-line line-4"></div>
+        </div>
+        <div class="logo-container">
+          <div class="logo-glow"></div>
+          <img src="/src/assets/club-logo.jpg" alt="Colorado School of Mines AI/ML Club Logo" class="hero-logo" />
+        </div>
       </div>
     </div>
   </div>
 
   <div class="features">
-    <div class="feature-card">
+    <div class="feature-card surface-card">
       <img src="/src/assets/training.jpg" alt="AI/ML Training" class="feature-image" />
       <div class="feature-content">
-        <div class="feature-icon">🎓</div>
         <h3>Workshops & Training</h3>
         <p>Regular hands-on workshops covering machine learning fundamentals, deep learning frameworks, and cutting-edge AI techniques.</p>
       </div>
     </div>
 
-    <div class="feature-card">
+    <div class="feature-card surface-card">
       <img src="/src/assets/competition.jpg" alt="AI/ML Projects" class="feature-image" />
       <div class="feature-content">
-        <div class="feature-icon">🚀</div>
         <h3>Collaborative Projects</h3>
         <p>Work on real-world machine learning projects, participate in competitions, and build your portfolio with guidance from experienced mentors.</p>
       </div>
     </div>
 
-    <div class="feature-card">
+    <div class="feature-card surface-card">
       <img src="/src/assets/networking.jpg" alt="Industry Connections" class="feature-image" />
       <div class="feature-content">
-        <div class="feature-icon">🤝</div>
         <h3>Industry Connections</h3>
         <p>Network with professionals, attend guest lectures, and explore career opportunities in AI and machine learning.</p>
       </div>
     </div>
   </div>
 
-  <div class="mission-section">
+  <div class="mission-section surface-card">
     <h2>Our Mission</h2>
     <p class="mission-text">
       Artificial Intelligence and Machine Learning Club aims to foster a collaborative environment for students interested in the vast domain of machine learning. The club seeks to promote understanding, research, and application of machine learning concepts. AI/ML at Mines strives to provide resources, mentorship, workshops, competitions, and projects to help members learn about artificial intelligence and machine learning techniques, ethics, and advancements. It's a platform for sharing knowledge, collaborating on projects, and staying updated with the latest breakthroughs.
@@ -71,24 +94,35 @@
 
 <style>
   .hero {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 3rem 0;
+    padding: 4rem 0 2rem;
   }
-  
-  .hero-content {
-    display: flex;
-    flex-direction: column;
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2.5rem;
     align-items: center;
-    margin-bottom: 5rem;
-    text-align: center;
+    padding: 3rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .hero-text {
+    text-align: left;
+  }
+
+  .hero-badge {
+    margin-bottom: 1.25rem;
   }
 
   /* Logo Showcase Section */
+  .logo-column {
+    display: flex;
+    justify-content: center;
+  }
+
   .logo-showcase {
     position: relative;
-    margin-bottom: 3rem;
-    width: 100%;
+    width: min(420px, 90%);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -204,7 +238,7 @@
   }
 
   .hero-text {
-    max-width: 800px;
+    max-width: 560px;
   }
   
   h1 {
@@ -226,7 +260,6 @@
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
-    justify-content: center;
   }
   
   .btn {
@@ -294,6 +327,34 @@
     box-shadow: 0 0 20px var(--cyan-subtle);
   }
   
+  .stats-row {
+    margin-top: 2.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+  }
+
+  .stat-card {
+    padding: 1rem 1.25rem;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .value {
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: var(--accent-bright);
+    line-height: 1.1;
+  }
+
+  .label {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
   .features {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -302,9 +363,6 @@
   }
 
   .feature-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
     overflow: hidden;
     transition: all 0.3s ease;
     position: relative;
@@ -341,12 +399,6 @@
     padding: 1.5rem;
   }
 
-  .feature-icon {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
-    filter: drop-shadow(0 0 10px var(--accent));
-  }
-
   .feature-card h3 {
     color: var(--text-bright);
     font-size: 1.5rem;
@@ -361,12 +413,8 @@
 
   .mission-section {
     margin-top: 5rem;
-    padding: 3rem 2rem;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
+    padding: 3rem 2.5rem;
     text-align: center;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   }
 
   .mission-section h2 {
@@ -385,20 +433,12 @@
   }
 
   @media (max-width: 900px) {
-    .hero-content {
-      padding: 2rem 1rem;
+    .hero-grid {
+      padding: 2.25rem;
     }
 
-    .logo-container {
-      max-width: 320px;
-    }
-    
     h1 {
-      font-size: 2.75rem;
-    }
-    
-    .features {
-      gap: 1.5rem;
+      font-size: 2.9rem;
     }
   }
   
@@ -407,12 +447,16 @@
       padding: 1.5rem 0;
     }
 
-    .logo-container {
-      max-width: 280px;
+    .hero-grid {
+      padding: 1.5rem;
+    }
+
+    .logo-showcase {
+      width: 100%;
     }
     
     h1 {
-      font-size: 2.25rem;
+      font-size: 2.4rem;
     }
     
     .lead {
@@ -421,7 +465,6 @@
     
     .cta-row {
       flex-direction: column;
-      width: 100%;
     }
     
     .btn {

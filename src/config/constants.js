@@ -24,8 +24,7 @@ export const NAV_LINKS = [
   { label: 'Home', href: ROUTES.HOME },
   { label: 'Events', href: ROUTES.EVENTS },
   { label: 'Projects', href: ROUTES.PROJECTS },
-  { label: 'Contact', href: ROUTES.CONTACT },
-  { label: 'OreConnect', href: EXTERNAL_LINKS.ORECONNECT, external: true }
+  { label: 'Contact', href: ROUTES.CONTACT }
 ]
 
 export const BREAKPOINTS = {

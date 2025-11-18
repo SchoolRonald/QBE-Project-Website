@@ -12,7 +12,10 @@
 </script>
 
 <div class="section-header">
-  <h3>{title}</h3>
+  <div class="label-row">
+    <span class="accent-dot" aria-hidden="true"></span>
+    <h3>{title}</h3>
+  </div>
   {#if showDivider}
     <div class="divider"></div>
   {/if}
@@ -23,13 +26,26 @@
     margin-bottom: 2rem;
   }
   
-  h3 {
-    font-size: 1.3rem;
-    font-weight: 700;
-    margin: 0 0 0.5rem;
-    color: var(--accent);
+  .label-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
     padding-bottom: 0.5rem;
-    border-bottom: 2px solid var(--border-accent);
+  }
+
+  .accent-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: linear-gradient(120deg, var(--accent), var(--cyan));
+    box-shadow: 0 0 10px rgba(0, 206, 209, 0.5);
+  }
+
+  h3 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--text-bright);
   }
   
   .divider {
@@ -37,6 +53,7 @@
     background: linear-gradient(90deg, var(--accent) 0%, var(--cyan) 50%, transparent 100%);
     border-radius: 2px;
     margin-top: 0.5rem;
+    opacity: 0.8;
   }
 </style>
 

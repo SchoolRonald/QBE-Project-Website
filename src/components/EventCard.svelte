@@ -11,123 +11,140 @@
   export let isPast = false
 </script>
 
-<article class="card" class:past={isPast}>
-    <div class="title">{e.title}</div>
-    <div class="date">{e.date}</div>
-    {#if e.time}
-        <div class="time">{e.time}</div>
+<article class="card surface-card" class:past={isPast}>
+  <header class="card-head">
+    <span class="badge status" class:past={isPast}>{isPast ? 'Past Session' : 'Upcoming'}</span>
+    {#if e.date !== 'TBD'}
+      <span class="badge date-pill">{e.date}</span>
     {/if}
-    <div class="loc">{e.location}</div>
+  </header>
+
+  <h4>{e.title}</h4>
   <p class="desc">{e.desc}</p>
-  {#if !isPast}
-    <div class="actions">
-      {#if e.oreconnect_url}
-        <a class="btn" href={e.oreconnect_url} target="_blank" rel="noopener noreferrer">OreConnect</a>
+
+  {#if e.location || e.time}
+    <div class="meta">
+      {#if e.location}
+        <div class="meta-item">
+          <span class="meta-label">Location</span>
+          <span>{e.location}</span>
+        </div>
       {/if}
+
+      {#if e.time}
+        <div class="meta-item">
+          <span class="meta-label">Time</span>
+          <span>{e.time}</span>
+        </div>
+      {/if}
+    </div>
+  {/if}
+
+  {#if e.oreconnect_url}
+    <div class="actions">
+      <a class="btn" href={e.oreconnect_url} target="_blank" rel="noopener noreferrer">
+        View on OreConnect
+      </a>
     </div>
   {/if}
 </article>
 
 <style>
   .card {
-    background: var(--card);
-    padding: 1.75rem;
-    border-radius: 12px;
-    border: 1px solid var(--border-subtle);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--accent), transparent);
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-  
-  .card:hover::before {
-    opacity: 1;
-  }
-  
-  .card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
-    border-color: var(--border-medium);
-    background: var(--card-hover);
-  }
-  
-  .card.past {
-    opacity: 0.6;
-  }
-  
-  .card.past:hover {
-    opacity: 0.7;
+    padding: 1.85rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
 
-  
-  .title {
-    font-weight: 700;
-    margin-bottom: 0.75rem;
-    font-size: 1.15rem;
-    min-height: 3rem;
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 25px 60px rgba(5, 9, 17, 0.45);
+  }
+
+  .card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+
+  h4 {
+    font-size: 1.3rem;
+    margin: 0;
     color: var(--text-bright);
-    line-height: 1.4;
   }
-  
-  .date {
-    color: var(--muted);
-    font-size: 0.9rem;
-    margin-bottom: 0.25rem;
-    font-weight: 500;
-  }
-  
-  .time {
-    color: var(--muted);
-    font-size: 0.85rem;
-    margin-bottom: 0.75rem;
-  }
-  
-  .loc {
-    color: var(--accent);
-    font-weight: 600;
-    font-size: 0.9rem;
-    margin-bottom: 0.75rem;
-    display: inline-block;
-  }
-  
+
   .desc {
-    color: var(--muted);
-    margin-top: 0.75rem;
-    line-height: 1.6;
+    color: var(--text);
+    margin: 0.85rem 0 1rem;
+    line-height: 1.5;
   }
-  
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.5rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 120px;
+  }
+
+  .meta-label {
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 0.65rem;
+    color: var(--muted);
+  }
+
+  .date-pill {
+    background: rgba(0, 206, 209, 0.12);
+    border-color: rgba(0, 206, 209, 0.4);
+  }
+
+  .status {
+    background: rgba(212, 175, 55, 0.12);
+    border-color: rgba(212, 175, 55, 0.35);
+  }
+
+  .status.past {
+    background: rgba(139, 155, 180, 0.15);
+    border-color: rgba(139, 155, 180, 0.35);
+    color: var(--muted);
+  }
+
   .actions {
     margin-top: 1.25rem;
+    display: flex;
+    justify-content: flex-end;
   }
-  
+
   .btn {
-    background: var(--bg-overlay);
-    border: 1.5px solid var(--border-medium);
-    padding: 0.625rem 1rem;
-    border-radius: 6px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-bright));
+    color: var(--bg);
     text-decoration: none;
-    color: var(--text);
+    padding: 0.6rem 1.25rem;
+    border-radius: 999px;
     font-weight: 600;
-    font-size: 0.9rem;
-    display: inline-block;
+    border: 0;
     transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    box-shadow: 0 12px 30px rgba(212, 175, 55, 0.18);
   }
-  
+
   .btn:hover {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: white;
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+  }
+
+  .card.past {
+    opacity: 0.92;
   }
 </style>

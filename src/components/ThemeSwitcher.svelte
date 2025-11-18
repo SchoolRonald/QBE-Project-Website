@@ -26,8 +26,13 @@
 
 <div class="theme-switcher">
   <button class="theme-btn" on:click|stopPropagation={toggleDropdown}>
-    <span class="icon">🎨</span>
-    <span class="label">{themes[currentTheme]?.name || 'Theme'}</span>
+    <span class="swatch" style={`background-image: linear-gradient(120deg, ${themes[currentTheme]?.colors?.accent}, ${themes[currentTheme]?.colors?.cyan});`}></span>
+    <span class="label">
+      <span class="label-title">{themes[currentTheme]?.name || 'Theme'}</span>
+      {#if themes[currentTheme]?.hint}
+        <span class="label-hint">{themes[currentTheme].hint}</span>
+      {/if}
+    </span>
     <span class="arrow">{isOpen ? '▲' : '▼'}</span>
   </button>
   
@@ -39,8 +44,16 @@
           class:active={currentTheme === key}
           on:click={() => changeTheme(key)}
         >
-          <div class="color-preview" style="background: {theme.colors.accent}"></div>
-          <span>{theme.name}</span>
+          <div
+            class="color-preview"
+            style={`background-image: linear-gradient(120deg, ${theme.colors.accent}, ${theme.colors.cyan});`}
+          ></div>
+          <div class="theme-meta">
+            <span class="theme-name">{theme.name}</span>
+            {#if theme.hint}
+              <span class="theme-hint">{theme.hint}</span>
+            {/if}
+          </div>
           {#if currentTheme === key}
             <span class="check">✓</span>
           {/if}
@@ -58,26 +71,49 @@
   .theme-btn {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 0.75rem;
-    background: var(--bg-overlay);
+    gap: 0.7rem;
+    padding: 0.4rem 0.9rem;
+    background: rgba(255, 255, 255, 0.03);
     border: 1px solid var(--border-medium);
-    border-radius: 8px;
+    border-radius: 999px;
     color: var(--text);
     cursor: pointer;
     font-size: 0.9rem;
-    transition: background 0.2s, border-color 0.2s;
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
   }
   
   .theme-btn:hover {
-    background: var(--bg-hover);
+    background: rgba(255, 255, 255, 0.06);
     border-color: var(--accent);
+    transform: translateY(-1px);
   }
   
-  .icon {
-    font-size: 1.1rem;
+  .swatch {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.15);
   }
   
+  .label {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+    text-align: left;
+  }
+
+  .label-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .label-hint {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+
   .arrow {
     font-size: 0.7rem;
     opacity: 0.7;
@@ -100,8 +136,8 @@
     width: 100%;
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem 1rem;
+    gap: 0.9rem;
+    padding: 0.85rem 1rem;
     background: transparent;
     border: none;
     color: var(--text);
@@ -120,10 +156,28 @@
   }
   
   .color-preview {
-    width: 20px;
-    height: 20px;
-    border-radius: 4px;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
     flex-shrink: 0;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .theme-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .theme-name {
+    font-weight: 600;
+  }
+
+  .theme-hint {
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
   
   .check {
@@ -133,7 +187,7 @@
   }
   
   @media (max-width: 700px) {
-    .label {
+    .label-hint {
       display: none;
     }
   }
