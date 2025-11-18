@@ -1,6 +1,6 @@
 <script>
   import { router } from '../stores/router.js'
-  import { APP_CONFIG, ROUTES } from '../config/constants.js'
+  import { APP_CONFIG, ROUTES, NAV_LINKS } from '../config/constants.js'
   import ThemeSwitcher from './ThemeSwitcher.svelte'
   
   let open = false
@@ -11,6 +11,10 @@
    */
   function navTo(hash) {
     router.navigate(hash)
+    open = false
+  }
+
+  function closeMenu() {
     open = false
   }
 </script>
@@ -31,19 +35,22 @@
     </div>
 
     <ul class:open={open} class="links">
-      <li><a href={ROUTES.HOME} on:click|preventDefault={() => navTo(ROUTES.HOME)}>Home</a></li>
-      <li><a href={ROUTES.EVENTS} on:click|preventDefault={() => navTo(ROUTES.EVENTS)}>Events</a></li>
-      <li><a href={ROUTES.PROJECTS} on:click|preventDefault={() => navTo(ROUTES.PROJECTS)}>Projects</a></li>
-      <li><a href={ROUTES.CONTACT} on:click|preventDefault={() => navTo(ROUTES.CONTACT)}>Contact</a></li>
-      <li>
-        <a
-          href="https://oreconnect.mines.edu/feeds?type=club&type_id=67510&tab=about"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          OreConnect
-        </a>
-      </li>
+      {#each NAV_LINKS as link (link.label)}
+        <li>
+          {#if link.external}
+            <a
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              on:click={closeMenu}
+            >
+              {link.label}
+            </a>
+          {:else}
+            <a href={link.href} on:click|preventDefault={() => navTo(link.href)}>{link.label}</a>
+          {/if}
+        </li>
+      {/each}
     </ul>
   </div>
 </nav>

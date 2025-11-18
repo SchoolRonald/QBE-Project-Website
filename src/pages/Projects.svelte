@@ -12,6 +12,7 @@
   />
 
   <div class="section">
+    <SectionHeader title="Featured Work" />
     <div class="grid">
       {#each projectsData as project (project.title)}
         <ProjectCard {project} />

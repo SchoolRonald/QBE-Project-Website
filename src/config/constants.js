@@ -16,6 +16,18 @@ export const ROUTES = {
   CONTACT: '#contact'
 }
 
+export const EXTERNAL_LINKS = {
+  ORECONNECT: 'https://oreconnect.mines.edu/feeds?type=club&type_id=67510&tab=about'
+}
+
+export const NAV_LINKS = [
+  { label: 'Home', href: ROUTES.HOME },
+  { label: 'Events', href: ROUTES.EVENTS },
+  { label: 'Projects', href: ROUTES.PROJECTS },
+  { label: 'Contact', href: ROUTES.CONTACT },
+  { label: 'OreConnect', href: EXTERNAL_LINKS.ORECONNECT, external: true }
+]
+
 export const BREAKPOINTS = {
   mobile: 700,
   tablet: 900,

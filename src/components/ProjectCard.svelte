@@ -1,16 +1,26 @@
 <script>
-  export let project;
+  export let project
+
+  const descriptionFallback = 'Project details coming soon.'
+
+  $: title = project?.title || 'Untitled Project'
+  $: description = project?.description || descriptionFallback
+  $: hasMembers = Array.isArray(project?.members) && project.members.length > 0
+  $: memberList = hasMembers ? project.members.join(', ') : 'TBD'
+
+  $: hasTechnologies = Array.isArray(project?.technologies) && project.technologies.length > 0
+  $: techList = hasTechnologies ? project.technologies.join(', ') : 'TBD'
 </script>
 
 <article class="card">
-  <div class="title">{project.title}</div>
-  <p class="desc">{project.description}</p>
+  <div class="title">{title}</div>
+  <p class="desc">{description}</p>
   <div class="details">
     <div class="members">
-      <strong>Members:</strong> {project.members.join(', ')}
+      <strong>Members:</strong> {memberList}
     </div>
     <div class="tech">
-      <strong>Technologies:</strong> {project.technologies.join(', ')}
+      <strong>Technologies:</strong> {techList}
     </div>
   </div>
   <div class="actions">

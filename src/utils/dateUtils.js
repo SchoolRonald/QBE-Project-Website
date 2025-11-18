@@ -2,16 +2,28 @@
  * Date and time formatting utilities
  */
 
+const DEFAULT_DATE_OPTIONS = { month: 'short', day: 'numeric', year: 'numeric' }
+const DATE_LOCALE = 'en-US'
+
+function parseLocalDate(dateStr) {
+  if (!dateStr || dateStr === 'TBD') return null
+  const parts = dateStr.split('-').map(Number)
+  if (parts.length !== 3 || parts.some(Number.isNaN)) return null
+  const [year, month, day] = parts
+  return new Date(year, month - 1, day)
+}
+
 /**
  * Format a date string for display
  * @param {string} dateStr - ISO date string or 'TBD'
  * @param {Object} options - Intl.DateTimeFormat options
  * @returns {string} Formatted date string
  */
-export function formatDate(dateStr, options = { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) {
+export function formatDate(dateStr, options = DEFAULT_DATE_OPTIONS) {
   if (dateStr === 'TBD') return 'TBD'
-  const date = new Date(dateStr)
-  return date.toLocaleDateString('en-US', options)
+  const date = parseLocalDate(dateStr)
+  if (!date) return 'TBD'
+  return new Intl.DateTimeFormat(DATE_LOCALE, options).format(date)
 }
 
 /**
@@ -71,8 +83,8 @@ export function isPastDate(dateStr) {
   if (dateStr === 'TBD') return false
   const today = new Date()
   today.setHours(0, 0, 0, 0)
-  const eventDate = new Date(dateStr)
-  eventDate.setHours(0, 0, 0, 0)
+  const eventDate = parseLocalDate(dateStr)
+  if (!eventDate) return false
   return eventDate < today
 }
 
@@ -85,8 +97,8 @@ export function isUpcomingDate(dateStr) {
   if (dateStr === 'TBD') return true
   const today = new Date()
   today.setHours(0, 0, 0, 0)
-  const eventDate = new Date(dateStr)
-  eventDate.setHours(0, 0, 0, 0)
+  const eventDate = parseLocalDate(dateStr)
+  if (!eventDate) return false
   return eventDate >= today
 }
 
@@ -97,9 +109,12 @@ export function isUpcomingDate(dateStr) {
  * @returns {number} Sort order
  */
 export function sortByDateAsc(a, b) {
-  if (a.date === 'TBD') return 1
-  if (b.date === 'TBD') return -1
-  return new Date(a.date) - new Date(b.date)
+  const dateA = parseLocalDate(a.date)
+  const dateB = parseLocalDate(b.date)
+  if (!dateA && !dateB) return 0
+  if (!dateA) return 1
+  if (!dateB) return -1
+  return dateA - dateB
 }
 
 /**
@@ -109,5 +124,11 @@ export function sortByDateAsc(a, b) {
  * @returns {number} Sort order
  */
 export function sortByDateDesc(a, b) {
-  return new Date(b.date) - new Date(a.date)
+  const dateA = parseLocalDate(a.date)
+  const dateB = parseLocalDate(b.date)
+  if (!dateA && !dateB) return 0
+  if (!dateA) return 1
+  if (!dateB) return -1
+  return dateB - dateA
 }
+
