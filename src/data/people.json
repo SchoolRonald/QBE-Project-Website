@@ -2,13 +2,23 @@
   "leadership": [
     {
       "name": "Ronald Chu",
-      "role": "President",
+      "role": "QBE and CS Major",
       "email": "rchu@mines.edu"
     },
     {
-      "name": "Matthew Yamamoto",
-      "role": "Vice President",
-      "email": "matthew_yamamoto@mines.edu"
+      "name": "Camille Anderson",
+      "role": "QBE and Biochemistry Major",
+      "email": "camille_anderson@mines.edu"
+    },
+    {
+      "name": "Paul Jacobsen",
+      "role": "QBE Major",
+      "email": "pjacobsen@mines.edu"
+    },
+    {
+      "name": "Kyle Nguyen",
+      "role": "QBE and Chemical Engineering Major",
+      "email": "kyle_nguyen@mines.edu"
     }
   ],
   "advisors": [
